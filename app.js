@@ -33,27 +33,25 @@ function updateSummary() {
     document.getElementById('total-cashout').textContent = `₹${totalCashOut.toFixed(2)}`;
 }
 function renderRecentList() {
-    const data = getData();
-    let all = data.income.map(e => ({...e, type: 'Income'})).concat(data.expenses.map(e => ({...e, type: 'Expense'})));
-    all = all
-  .map((item, idx) => ({ ...item, originalIndex: idx }))
-  .sort((a, b) => {
-    const dateComp = b.date.localeCompare(a.date);
-    if (dateComp !== 0) return dateComp;
-    return b.originalIndex - a.originalIndex;
+  const data = getData(); // Your function to get stored data
+
+  // Combine income and expenses
+  let all = data.income.map(e => ({ ...e, type: 'Income' }))
+           .concat(data.expenses.map(e => ({ ...e, type: 'Expense' })));
+
+  // Sort by date, newest first
+  all.sort((a, b) => b.date.localeCompare(a.date));
+
+  // Show the list
+  const container = document.getElementById('recent-list'); // Change to your correct element ID!
+  container.innerHTML = "";
+  all.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.type} | ${item.category} | ₹${item.amount} | ${item.date}`;
+    container.appendChild(li);
   });
-    const shown = all.slice(0, 5);
-    const list = document.getElementById('recent-list');
-    list.innerHTML = '';
-    shown.forEach(item => {
-        const li = document.createElement('li');
-        li.innerHTML =
-          `<span class="entry-type-${item.type.toLowerCase()}">${item.type}</span> | ` +
-          `<span class="entry-category">${item.category}</span> | ` +
-          `₹${item.amount} | ${item.date}${item.note && item.note.trim() ? ' | ' + item.note : ''}`;
-        list.appendChild(li);
-    });
 }
+
 function renderIncomeList(filter="") {
     const data = getData();
     const list = document.getElementById('income-list');

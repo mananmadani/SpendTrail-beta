@@ -18,7 +18,13 @@
 </header>
 <div id="side-menu" style="display:none; position:fixed; top:0; right:0; width:240px; height:100vh; background:#232c40; color:#fff; z-index:999;">
   <div style="padding:28px 12px;">
-    <div
+  <div
+  onclick="showAllEntries(); if (window.navigator.vibrate) window.navigator.vibrate(16)"
+  class="menu-item"
+>
+  🗒️ All Entries
+  </div>  
+  <div
   onclick="showLedgerCategories(); if(window.navigator.vibrate) window.navigator.vibrate(16)"
   class="menu-item"
 >

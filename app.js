@@ -362,3 +362,25 @@ document.getElementById('close-page-view').onclick = function() {
   document.getElementById('page-view').style.display = 'none';
   if (window.navigator.vibrate) window.navigator.vibrate(22);
 };
+function showAllEntries() {
+  // Hide all other main sections/tabs
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.getElementById('all-entries-section').style.display = 'block';
+  renderAllEntriesList();
+  closeMenu(); // If this exists to close the menu
+}
+
+function renderAllEntriesList() {
+  const data = getData();
+  let all = data.income.map(e => ({ ...e, type: 'Income' }))
+      .concat(data.expenses.map(e => ({ ...e, type: 'Expense' })));
+  all.sort((a, b) => b.date.localeCompare(a.date));
+
+  const ul = document.getElementById('all-entries-list');
+  ul.innerHTML = "";
+  all.forEach(item => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="${item.type === 'Income' ? 'income' : 'expense'}">${item.type}</span> | ${item.category} | ₹${item.amount} | ${item.date}${item.note && item.note.trim() ? ' | ' + item.note : ''}`;
+    ul.appendChild(li);
+  });
+}

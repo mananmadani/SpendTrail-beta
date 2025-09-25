@@ -29,8 +29,8 @@ function updateSummary() {
     const data = getData();
     const totalCashIn = data.income.reduce((sum, i) => sum + Number(i.amount), 0);
     const totalCashOut = data.expenses.reduce((sum, e) => sum + Number(e.amount), 0);
-    document.getElementById('total-cashin').textContent = `₹${totalCashIn.toFixed(2)}`;
-    document.getElementById('total-cashout').textContent = `₹${totalCashOut.toFixed(2)}`;
+    document.getElementById('total-cashin').textContent = `â‚¹${totalCashIn.toFixed(2)}`;
+    document.getElementById('total-cashout').textContent = `â‚¹${totalCashOut.toFixed(2)}`;
 }
 function renderRecentList() {
     const data = getData();
@@ -50,7 +50,7 @@ function renderRecentList() {
         li.innerHTML =
           `<span class="entry-type-${item.type.toLowerCase()}">${item.type}</span> | ` +
           `<span class="entry-category">${item.category}</span> | ` +
-          `₹${item.amount} | ${item.date}${item.note && item.note.trim() ? ' | ' + item.note : ''}`;
+          `â‚¹${item.amount} | ${item.date}${item.note && item.note.trim() ? ' | ' + item.note : ''}`;
         list.appendChild(li);
     });
 }
@@ -68,7 +68,7 @@ function renderIncomeList(filter="") {
   .forEach((item, idx) => {
         if (!filter || item.category.toLowerCase().includes(filter) || (item.note && item.note.toLowerCase().includes(filter))) {
             const li = document.createElement('li');
-            li.innerHTML = `₹${item.amount} | ${item.category} | ${item.date} | ${item.note||''} 
+            li.innerHTML = `â‚¹${item.amount} | ${item.category} | ${item.date} | ${item.note||''} 
   <button onclick="editEntry('income', ${item.originalIndex})">Edit</button>
   <button onclick="deleteEntry('income', ${item.originalIndex})">Delete</button>`;
 list.appendChild(li);
@@ -89,7 +89,7 @@ function renderExpenseList(filter="") {
   .forEach((item, idx) => {
         if (!filter || item.category.toLowerCase().includes(filter) || (item.note && item.note.toLowerCase().includes(filter))) {
             const li = document.createElement('li');
-            li.innerHTML = `₹${item.amount} | ${item.category} | ${item.date} | ${item.note||''} 
+            li.innerHTML = `â‚¹${item.amount} | ${item.category} | ${item.date} | ${item.note||''} 
   <button onclick="editEntry('expenses', ${item.originalIndex})">Edit</button>
   <button onclick="deleteEntry('expenses', ${item.originalIndex})">Delete</button>`;
 list.appendChild(li);
@@ -184,9 +184,9 @@ document.getElementById('export-pdf-btn').addEventListener('click', function() {
     doc.setFontSize(12);
     doc.text(`Date: ${new Date().toLocaleDateString()}`, 10, y); y += 8;
     doc.setFont(undefined, 'bold'); doc.text('Income:', 10, y); doc.setFont(undefined, 'normal'); y += 6;
-    doc.setFontSize(10); data.income.forEach(i => { doc.text(`₹${i.amount} | ${i.category} | ${i.date} | ${i.note||''}`, 12, y); y += 6; }); y += 6;
+    doc.setFontSize(10); data.income.forEach(i => { doc.text(`â‚¹${i.amount} | ${i.category} | ${i.date} | ${i.note||''}`, 12, y); y += 6; }); y += 6;
     doc.setFont(undefined, 'bold'); doc.text('Expense:', 10, y); doc.setFont(undefined, 'normal'); y += 6;
-    data.expenses.forEach(e => { doc.text(`₹${e.amount} | ${e.category} | ${e.date} | ${e.note||''}`, 12, y); y += 6; }); y += 8;
+    data.expenses.forEach(e => { doc.text(`â‚¹${e.amount} | ${e.category} | ${e.date} | ${e.note||''}`, 12, y); y += 6; }); y += 8;
     doc.save('SpendTrail-report.pdf');
     if (window.navigator.vibrate) window.navigator.vibrate(50);
 });
@@ -216,7 +216,7 @@ function filterEntriesByDate(startDate, endDate) {
         const itemDate = new Date(item.date);
         return itemDate >= start && itemDate <= end;
     });
-    return all.sort((a, b) => b.date.localeCompare(a.date));
+    return all.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 document.getElementById('generate-statement-btn').addEventListener('click', function() {
     const startDate = document.getElementById('start-date').value;
@@ -232,7 +232,7 @@ document.getElementById('generate-statement-btn').addEventListener('click', func
             const li = document.createElement('li');
             li.innerHTML =
               `<span class="entry-type-${item.type.toLowerCase()}">${item.type}</span> | ` +
-              `₹${item.amount} | <span class="entry-category">${item.category}</span> | ${item.date}` +
+              `â‚¹${item.amount} | <span class="entry-category">${item.category}</span> | ${item.date}` +
               (item.note && item.note.trim() ? ` | ${item.note}` : '');
             list.appendChild(li);
         });
@@ -254,7 +254,7 @@ document.getElementById('export-statement-pdf-btn').addEventListener('click', fu
     doc.setFontSize(10);
     filtered.forEach(item => {
         let line =
-          `${item.type} | ₹${item.amount} | ${item.category} | ${item.date}` +
+          `${item.type} | â‚¹${item.amount} | ${item.category} | ${item.date}` +
           (item.note && item.note.trim() ? ` | ${item.note}` : "");
         doc.text(line, 10, y);
         y += 6;
@@ -290,7 +290,7 @@ function showPrivacyPolicy() {
     <div style="padding:13px;">
       <h3 style="margin-top:0;">Privacy Policy</h3>
       <p><strong>Data Privacy:</strong><br>
-      SpendTrail keeps your financial data private. All your entries are stored only on your device with your browser’s local storage. No data is sent to any server or outside this device.</p>
+      SpendTrail keeps your financial data private. All your entries are stored only on your device with your browserâ€™s local storage. No data is sent to any server or outside this device.</p>
       <p><strong>Permissions:</strong><br>
       This app does not use your contacts, location, camera, or personal info. No information about you or your device is shared with anyone.</p>
       <p><strong>Removing Data:</strong><br>
@@ -350,7 +350,7 @@ function showLedger(category, filterType = 'all') {
 `;
   if (all.length === 0) html += 'No entries yet.';
   else html += all.map(e =>
-    `₹${e.amount} | ${e.date} | ${e.type} | ${e.note || ''}`
+    `â‚¹${e.amount} | ${e.date} | ${e.type} | ${e.note || ''}`
   ).join('<br>');
   html += '</div>';
   document.getElementById('page-content').innerHTML = html;

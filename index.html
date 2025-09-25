@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SpendTrail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+  <img src="SpendTrail.png" alt="App Logo" class="logo" />
+  <span class="title">SpendTrail</span>
+  <button id="menu-btn" style="margin-left:auto; background:#232c40; border:none; border-radius:50%; width:42px; height:42px; display:flex; align-items:center; justify-content:center; font-size:1.7em; color:#00BFA6; cursor:pointer;">
+  <span style="line-height:0;">&#9776;</span>
+  </button>
+</header>
+</header>
+<div id="side-menu" style="display:none; position:fixed; top:0; right:0; width:240px; height:100vh; background:#232c40; color:#fff; z-index:999;">
+  <div style="padding:28px 12px;">
+    <div
+  onclick="showLedgerCategories(); if(window.navigator.vibrate) window.navigator.vibrate(16)"
+  class="menu-item"
+>
+  Ledger
+</div>
+<div
+  onclick="showPrivacyPolicy(); if(window.navigator.vibrate) window.navigator.vibrate(16)"
+  class="menu-item"
+>
+  Privacy Policy
+</div>
+    <div id="menu-content"></div>
+  </div>
+</div>
+<div id="menu-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.32); z-index:998;" onclick="closeMenu()"></div>
+  <main>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="income">Income</button>
+      <button class="tab-btn" data-tab="expense">Expense</button>
+    </div>
+    <!-- Overview tab -->
+    <div id="tab-overview" class="tab-content active">
+      <div class="card balance-section">
+        <div class="balance-label">Current Balance</div>
+        <div class="balance-amount"><span id="balance-rupee">₹</span><span id="balance">0.00</span></div>
+      </div>
+      <div class="card summary-section cards-row">
+        <div class="summary-card">
+          <div class="summary-label">Total Income</div>
+          <div id="total-cashin" class="summary-value">₹0.00</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Total Expense</div>
+          <div id="total-cashout" class="summary-value">₹0.00</div>
+        </div>
+      </div>
+      <div class="card recent-section">
+        <div class="recent-label">Recent Entries</div>
+        <ul id="recent-list"></ul>
+      </div>
+      <div class="card">
+        <h3>Custom Statement</h3>
+        <form id="statement-form">
+          <div class="statement-fields-row">
+            <div class="date-label-group">
+              <label for="start-date">From</label>
+              <input type="date" id="start-date">
+            </div>
+            <div class="date-label-group">
+              <label for="end-date">To</label>
+              <input type="date" id="end-date">
+            </div>
+          </div>
+          <div class="statement-btns-row">
+            <button type="button" id="generate-statement-btn">Show Statement</button>
+            <button type="button" id="export-statement-pdf-btn">Export PDF</button>
+          </div>
+        </form>
+        <div id="statement-list-section">
+          <ul id="statement-list"></ul>
+        </div>
+      </div>
+      <div class="card action-section">
+        <button id="export-pdf-btn">Export All PDF</button>
+        <button id="delete-all-btn" class="danger">Delete All</button>
+      </div>
+    </div>
+    <!-- Income tab -->
+    <div id="tab-income" class="tab-content">
+      <div class="form-section">
+        <form id="income-form">
+          <h3>Add Income</h3>
+          <div class="form-row">
+            <input type="number" id="income-amount" placeholder="Amount" required>
+            <input type="text" id="income-category" placeholder="Category" required list="inc-category-list">
+            <input type="date" id="income-date" required>
+            <input type="text" id="income-note" placeholder="Note">
+            <button type="submit">Add</button>
+          </div>
+        </form>
+        <datalist id="inc-category-list"></datalist>
+      </div>
+      <div class="list-section">
+        <input type="text" id="search-income" class="entry-search" placeholder="Search by category/note">
+        <div class="list-scroll-wrap"><ul id="income-list"></ul></div>
+      </div>
+    </div>
+    <!-- Expense tab -->
+    <div id="tab-expense" class="tab-content">
+      <div class="form-section">
+        <form id="expense-form">
+          <h3>Add Expense</h3>
+          <div class="form-row">
+            <input type="number" id="expense-amount" placeholder="Amount" required>
+            <input type="text" id="expense-category" placeholder="Category" required list="exp-category-list">
+            <input type="date" id="expense-date" required>
+            <input type="text" id="expense-note" placeholder="Note">
+            <button type="submit">Add</button>
+          </div>
+        </form>
+        <datalist id="exp-category-list"></datalist>
+      </div>
+      <div class="list-section">
+        <input type="text" id="search-expense" class="entry-search" placeholder="Search by category/note">
+        <div class="list-scroll-wrap"><ul id="expense-list"></ul></div>
+      </div>
+    </div>
+  </main>
+  <!-- Edit Modal -->
+  <div id="edit-modal">
+    <div id="edit-modal-content">
+      <h3>Edit Entry</h3>
+      <form id="edit-form">
+        <input type="number" id="edit-amount" required>
+        <input type="text" id="edit-category" required>
+        <input type="date" id="edit-date" required>
+        <input type="text" id="edit-note">
+        <input type="hidden" id="edit-type">
+        <input type="hidden" id="edit-idx">
+        <button type="submit">Save</button>
+        <button type="button" id="close-edit-modal">Cancel</button>
+      </form>
+    </div>
+  </div>
+<div id="page-view" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#181c26; color:#fff; z-index:1001; overflow-y:auto;">
+  <button id="close-page-view" style="
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #232c40;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    box-shadow: 0 2px 10px #00bfa634;
+    font-size: 1.3em;
+    color: #00BFA6;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  ">←</button>
+  <div id="page-content" style="padding:54px 12px 32px 12px; max-width:480px; margin:auto;"></div>
+</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</div>
+</body>
+</html>

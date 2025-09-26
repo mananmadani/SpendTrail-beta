@@ -363,11 +363,12 @@ document.getElementById('close-page-view').onclick = function() {
   if (window.navigator.vibrate) window.navigator.vibrate(22);
 };
 function showAllEntries() {
-  // Hide all other main sections/tabs
   document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  const tabsBar = document.querySelector('.tabs');
+  if (tabsBar) tabsBar.style.display = 'none';
   document.getElementById('all-entries-section').style.display = 'block';
   renderAllEntriesList();
-  closeMenu(); // If this exists to close the menu
+  if (typeof closeMenu === 'function') closeMenu();
 }
 
 function renderAllEntriesList() {

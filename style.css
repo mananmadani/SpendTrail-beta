@@ -90,4 +90,17 @@ button:hover { background: #00b6a8; color: #fff;}
   max-height: 100vh;
   overflow-y: auto;
 }
-
+.entry-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.entry-list li {
+  padding: 12px 10px;
+  border-bottom: 1px solid #333;
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+}
+.income { color: #32d882 !important; }
+.expense { color: #ff4d4f !important; }

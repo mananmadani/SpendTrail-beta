@@ -385,3 +385,9 @@ function renderAllEntriesList() {
     ul.appendChild(li);
   });
 }
+function goBackToTabs() {
+  document.getElementById('all-entries-section').style.display = 'none';
+  const tabsBar = document.querySelector('.tabs');
+  if (tabsBar) tabsBar.style.display = 'flex';
+  document.getElementById('tab-overview').style.display = 'block';
+}

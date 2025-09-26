@@ -104,3 +104,67 @@ button:hover { background: #00b6a8; color: #fff;}
 }
 .income { color: #32d882 !important; }
 .expense { color: #ff4d4f !important; }
+.back-btn {
+  background: #232c40;
+  border: none;
+  color: #32c882;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.2em;
+  box-shadow: 0 0 5px #00cfa6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 14px;
+}
+
+.section-title {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2em;
+  letter-spacing: 0.02em;
+}
+
+.filter-btn {
+  background: #232c40;
+  color: #32c882;
+  border: none;
+  border-radius: 22px;
+  padding: 6px 18px;
+  margin-right: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.filter-btn.selected {
+  background: #00bfa6;
+  color: #fff;
+}
+
+.entry-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.entry-list li {
+  padding: 12px 10px;
+  border-bottom: 1px solid #333;
+  color: #fff;
+  font-size: 15px;
+}
+
+.entry-list li:last-child {
+  border-bottom: none;
+}
+
+.income {
+  color: #32c882 !important;
+}
+
+.expense {
+  color: #ff5544 !important;
+}

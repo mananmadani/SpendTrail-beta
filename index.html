@@ -174,15 +174,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="app.js"></script>
 </div>
-  <div id="all-entries-section" class="tab-content" style="display:none;">
-  <div style="display:flex; align-items:center; padding:10px 0;">
-    <button onclick="goBack()" class="back-btn">←</button>
-    <span class="section-title">All Entries</span>
+  <div id="all-entries-section" class="tab-content" style="display:none; background:#181c26; min-height:100vh;">
+  <div style="display:flex; align-items:center; padding:18px 0 10px 0;">
+    <button onclick="goBackToTabs()" class="back-btn">←</button>
+    <span class="section-title" style="margin-left:5px;">All Entries</span>
   </div>
-  <div style="margin:12px 0;">
-    <button class="filter-btn" id="filter-all" onclick="filterAllEntries('all')">All</button>
-    <button class="filter-btn" id="filter-income" onclick="filterAllEntries('Income')">Income</button>
-    <button class="filter-btn" id="filter-expense" onclick="filterAllEntries('Expense')">Expense</button>
+  <div style="display:flex; gap:10px; margin-bottom:16px;">
+    <button class="filter-btn" id="filter-all" onclick="if(window.navigator.vibrate)window.navigator.vibrate(18); filterAllEntries('all')">All</button>
+    <button class="filter-btn" id="filter-income" onclick="if(window.navigator.vibrate)window.navigator.vibrate(18); filterAllEntries('Income')">Income</button>
+    <button class="filter-btn" id="filter-expense" onclick="if(window.navigator.vibrate)window.navigator.vibrate(18); filterAllEntries('Expense')">Expense</button>
   </div>
   <ul id="all-entries-list" class="entry-list"></ul>
   </div>

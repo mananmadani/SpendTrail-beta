@@ -380,7 +380,17 @@ function goBackToTabs() {
   document.getElementById('top-navbar').style.display = '';
   const tabsBar = document.querySelector('.tabs');
   if (tabsBar) tabsBar.style.display = 'flex';
+
+  // Enable Overview tab and reset other tabs
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
   document.getElementById('tab-overview').style.display = 'block';
+
+  // Reactivate tab click
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.disabled = false);
+
+  // Set active class: remove from all, add to overview
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector('.tab-btn[data-tab="overview"]').classList.add('active');
 }
 
 function highlightFilterBtn(id) {

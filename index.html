@@ -174,9 +174,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="app.js"></script>
 </div>
-  <div id="all-entries-section" style="display:none;">
-  <h2>All Entries</h2>
-  <ul id="all-entries-list"></ul>
+  <div id="all-entries-section" class="tab-content" style="display:none;">
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0;">
+    <button onclick="goBackToTabs()" style="background:none;border:none;color:#32d882;font-size:16px;">← Back</button>
+    <h2 style="margin:0; color:#fff; font-size:20px;">All Entries</h2>
+    <span></span>
+  </div>
+  <ul id="all-entries-list" class="entry-list"></ul>
   </div>
 </body>
 </html>

@@ -375,10 +375,9 @@ function showAllEntries() {
 }
 
 function goBackToTabs() {
-  if(window.navigator && window.navigator.vibrate) window.navigator.vibrate(23);
+  if(window.navigator && window.navigator.vibrate) window.navigator.vibrate(18);
   document.getElementById('all-entries-section').style.display = 'none';
-  const navbar = document.getElementById('top-navbar');
-  if (navbar) navbar.style.display = '';
+  document.getElementById('top-navbar').style.display = '';
   const tabsBar = document.querySelector('.tabs');
   if (tabsBar) tabsBar.style.display = 'flex';
   document.getElementById('tab-overview').style.display = 'block';

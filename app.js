@@ -364,30 +364,50 @@ document.getElementById('close-page-view').onclick = function() {
 };
 function showAllEntries() {
   document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  const navbar = document.getElementById('top-navbar');
+  if (navbar) navbar.style.display = 'none';
   const tabsBar = document.querySelector('.tabs');
   if (tabsBar) tabsBar.style.display = 'none';
   document.getElementById('all-entries-section').style.display = 'block';
-  renderAllEntriesList();
+  highlightFilterBtn('filter-all');
+  renderAllEntriesList('all');
   if (typeof closeMenu === 'function') closeMenu();
 }
 
-function renderAllEntriesList() {
+function goBackToTabs() {
+  if(window.navigator && window.navigator.vibrate) window.navigator.vibrate(23);
+  document.getElementById('all-entries-section').style.display = 'none';
+  const navbar = document.getElementById('top-navbar');
+  if (navbar) navbar.style.display = '';
+  const tabsBar = document.querySelector('.tabs');
+  if (tabsBar) tabsBar.style.display = 'flex';
+  document.getElementById('tab-overview').style.display = 'block';
+}
+
+function highlightFilterBtn(id) {
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('selected'));
+  document.getElementById(id).classList.add('selected');
+}
+
+function filterAllEntries(type) {
+  highlightFilterBtn(
+    type === 'Income' ? 'filter-income' :
+    type === 'Expense' ? 'filter-expense' : 'filter-all'
+  );
+  renderAllEntriesList(type);
+}
+
+function renderAllEntriesList(filter = 'all') {
   const data = getData();
   let all = data.income.map(e => ({ ...e, type: 'Income' }))
-      .concat(data.expenses.map(e => ({ ...e, type: 'Expense' })));
+    .concat(data.expenses.map(e => ({ ...e, type: 'Expense' })));
   all.sort((a, b) => b.date.localeCompare(a.date));
-
+  if (filter !== 'all') all = all.filter(x => x.type === filter);
   const ul = document.getElementById('all-entries-list');
   ul.innerHTML = "";
   all.forEach(item => {
     const li = document.createElement('li');
-    li.innerHTML = `<span class="${item.type === 'Income' ? 'income' : 'expense'}">${item.type}</span> | ${item.category} | ₹${item.amount} | ${item.date}${item.note && item.note.trim() ? ' | ' + item.note : ''}`;
+    li.innerHTML = `<span class="${item.type === 'Income' ? 'income' : 'expense'}">${item.type}</span> | ${item.category} | ₹${item.amount} | ${item.date}${item.note ? ' | ' + item.note : ''}`;
     ul.appendChild(li);
   });
-}
-function goBackToTabs() {
-  document.getElementById('all-entries-section').style.display = 'none';
-  const tabsBar = document.querySelector('.tabs');
-  if (tabsBar) tabsBar.style.display = 'flex';
-  document.getElementById('tab-overview').style.display = 'block';
 }

@@ -175,10 +175,14 @@
   <script src="app.js"></script>
 </div>
   <div id="all-entries-section" class="tab-content" style="display:none;">
-  <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 0;">
-    <button onclick="goBackToTabs()" style="background:none;border:none;color:#32d882;font-size:16px;">← Back</button>
-    <h2 style="margin:0; color:#fff; font-size:20px;">All Entries</h2>
-    <span></span>
+  <div style="display:flex; align-items:center; padding:10px 0;">
+    <button onclick="goBack()" class="back-btn">←</button>
+    <span class="section-title">All Entries</span>
+  </div>
+  <div style="margin:12px 0;">
+    <button class="filter-btn" id="filter-all" onclick="filterAllEntries('all')">All</button>
+    <button class="filter-btn" id="filter-income" onclick="filterAllEntries('Income')">Income</button>
+    <button class="filter-btn" id="filter-expense" onclick="filterAllEntries('Expense')">Expense</button>
   </div>
   <ul id="all-entries-list" class="entry-list"></ul>
   </div>
